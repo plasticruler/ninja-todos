@@ -24,7 +24,7 @@
 </template>
 <script>
 import format from 'date-fns/format'
-import db from '@/firebase/init'
+import fs from '@/firebase/init'
 export default {
     data(){
         return {
@@ -51,7 +51,7 @@ export default {
                     person: 'John Conway',
                     status: 'ongoing'
                 }
-                db.collection('projects').add(project)
+                fs.collection('projects').add(project)
                 .then(()=>{
                     this.loading = false;
                     this.dialog = false;
