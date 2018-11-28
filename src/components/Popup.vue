@@ -24,7 +24,7 @@
 </template>
 <script>
 import format from 'date-fns/format'
-import fs from '@/firebase/init'
+import {fs} from '@/firebase/init'
 export default {
     data(){
         return {
@@ -62,7 +62,6 @@ export default {
     },
     computed:{
         formattedDate(){ 
-            console.log(this.due);
             return this.due?format(this.due, 'Do MMM YYYY'):''
         }
     }

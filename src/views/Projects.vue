@@ -17,7 +17,7 @@
     </div>
 </template>
 <script>
-import fs from '@/firebase/init'
+import {fs} from '@/firebase/init'
 export default {
   data() {
     return {
