@@ -17,7 +17,7 @@
     </div>
 </template>
 <script>
-import db from '@/firebase/init'
+import {fs} from '@/firebase/init'
 export default {
   data() {
     return {
@@ -32,7 +32,7 @@ export default {
       }
   },
   created(){
-      db.collection('projects').onSnapshot(res=>{
+      fs.collection('projects').onSnapshot(res=>{
           const changes = res.docChanges();
           changes.forEach(change=>{
               if (change.type === 'added'){
