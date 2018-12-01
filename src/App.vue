@@ -19,6 +19,17 @@ export default {
     return {
       //
     }
+  },
+  methods:{
+    onLogout(){
+      this.$store.dispatch('logout')
+      this.$router.push('/')
+    }
+  },
+  computed: {
+    userIsauthenticated(){
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+    }
   }
 }
 </script>
