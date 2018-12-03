@@ -5,8 +5,14 @@ export default {
     user: null
   },
   mutations: {
-    setUser (state, payload) {
+    SET_USER (state, payload) {     
+      console.log(payload)
       state.user = payload
+    }
+  },
+  getters: {
+    user (state) {
+      return state.user
     }
   },
   actions: {
@@ -23,7 +29,7 @@ export default {
               email: user.email,
               photoUrl: user.photoURL
             }
-            commit('setUser', newUser)
+            commit('SET_USER', newUser)
           }
         )
         .catch(
@@ -39,70 +45,16 @@ export default {
       commit('clearError')
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then(
-          user => {
+          result => {
             commit('setLoading', false)
-            const newUser = {
-              id: user.uid,
-              name: user.displayName,
-              email: user.email,
-              photoUrl: user.photoURL
-            }
-            commit('setUser', newUser)
+            commit('SET_USER', result.user)
           }
         )
         .catch(
           error => {
             commit('setLoading', false)
             commit('setError', error)
-            console.log(error)
-          }
-        )
-    },
-    signUserInGoogle ({commit}) {
-      commit('setLoading', true)
-      commit('clearError')
-      firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
-        .then(
-          user => {
-            commit('setLoading', false)
-            const newUser = {
-              id: user.uid,
-              name: user.displayName,
-              email: user.email,
-              photoUrl: user.photoURL
-            }
-            commit('setUser', newUser)
-          }
-        )
-        .catch(
-          error => {
-            commit('setLoading', false)
-            commit('setError', error)
-            console.log(error)
-          }
-        )
-    },
-    signUserInFacebook ({commit}) {
-      commit('setLoading', true)
-      commit('clearError')
-      firebase.auth().signInWithPopup(new firebase.auth.FacebookAuthProvider())
-        .then(
-          user => {
-            commit('setLoading', false)
-            const newUser = {
-              id: user.uid,
-              name: user.displayName,
-              email: user.email,
-              photoUrl: user.photoURL
-            }
-            commit('setUser', newUser)
-          }
-        )
-        .catch(
-          error => {
-            commit('setLoading', false)
-            commit('setError', error)
-            console.log(error)
+            console.error(error)
           }
         )
     },
@@ -111,15 +63,15 @@ export default {
       commit('clearError')
       firebase.auth().signInWithPopup(new firebase.auth.GithubAuthProvider())
         .then(
-          user => {
+          result => {
             commit('setLoading', false)
             const newUser = {
-              id: user.uid,
-              name: user.displayName,
-              email: user.email,
-              photoUrl: user.photoURL
+              id: result.user.uid,
+              name: result.user.displayName,
+              email: result.user.email,
+              photoUrl: result.user.photoURL
             }
-            commit('setUser', newUser)
+            commit('SET_USER', newUser)
           }
         )
         .catch(
@@ -143,7 +95,7 @@ export default {
               email: user.email,
               photoUrl: user.photoURL
             }
-            commit('setUser', newUser)
+            commit('SET_USER', newUser)
           }
         )
         .catch(
@@ -154,8 +106,8 @@ export default {
           }
         )
     },
-    autoSignIn ({commit}, payload) {
-      commit('setUser', {
+    AUTO_SIGNIN ({commit}, payload) {
+      commit('SET_USER', {
         id: payload.uid,
         name: payload.displayName,
         email: payload.email,
@@ -165,7 +117,7 @@ export default {
     resetPasswordWithEmail ({ commit }, payload) {
       const { email } = payload
       commit('setLoading', true)
-      firebase.auth().sendPasswordResetEmail(email)
+      auth.sendPasswordResetEmail(email)
       .then(
         () => {
           commit('setLoading', false)
@@ -182,12 +134,7 @@ export default {
     },
     logout ({commit}) {
       firebase.auth().signOut()
-      commit('setUser', null)
-    }
-  },
-  getters: {
-    user (state) {
-      return state.user
+      commit('SET_USER', null)
     }
   }
 }

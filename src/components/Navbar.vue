@@ -13,11 +13,19 @@
         </v-toolbar-title>
    
         <v-spacer></v-spacer>
-        <v-btn flat color="grey">
-            <span>Join</span>
-            <v-icon>person</v-icon>
+        <v-btn v-if="IsUserAuthenticated" flat color="grey" @click="logout">
+            <span>Signout {{user.email}}</span>
+            <v-icon>exit_to_app</v-icon>
             <!-- <v-icon right>exit_to_app</v-icon> -->
         </v-btn>
+        <div v-else>
+            <v-btn flat color="grey" >
+                <span>Login</span>
+                <v-icon>how_to_reg</v-icon>
+            </v-btn>
+        </div>
+        
+
     </v-toolbar>
     <v-navigation-drawer v-model="drawer" app class="indigo">
         <v-layout column align-center>
@@ -51,6 +59,7 @@
 
 <script>
 import Popup from './Popup'
+import {user} from '@/store/user' 
 export default {
 components:{
     Popup
@@ -65,6 +74,20 @@ components:{
       ],
       snackbar:false
     };
+  },
+  methods:{
+    logout(){
+      this.$store.dispatch('logout')
+      this.$router.push('/')
+    }
+  },
+  computed: {
+    IsUserAuthenticated(){
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+    },
+    user(){
+        return this.$store.getters.user;
+    }
   }
 };
 </script>

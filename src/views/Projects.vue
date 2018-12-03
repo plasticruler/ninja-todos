@@ -18,6 +18,7 @@
 </template>
 <script>
 import {fs} from '@/firebase/init'
+import {store} from '@/store/'
 export default {
   data() {
     return {
@@ -32,6 +33,7 @@ export default {
       }
   },
   created(){
+      console.log(store)
       fs.collection('projects').onSnapshot(res=>{
           const changes = res.docChanges();
           changes.forEach(change=>{

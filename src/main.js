@@ -3,7 +3,7 @@ import './plugins/vuetify'
 const App = () => import('./App')
 import router from './router/router'
 import {store} from './store'
-import {auth} from '@/firebase/init'
+import {fb} from '@/firebase/init'
 
 const AlertCmp = () => import('./components/Shared/Alert.vue')
 
@@ -12,10 +12,10 @@ Vue.component('app-alert', AlertCmp); //non-standard way
 new Vue({
   router,
   store,
-  create: ()=>{   
-    auth.auth().onAuthStateChanged((user)=>{
+  created: ()=>{   
+    fb.auth().onAuthStateChanged((user)=>{
       if (user){
-        this.$store.dispatch('autoSigIn',user)
+        store.dispatch('AUTO_SIGNIN',user)
       }
     })
   },

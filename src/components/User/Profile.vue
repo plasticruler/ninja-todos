@@ -20,7 +20,7 @@
 <script>
   export default {
     computed: {
-      user () {
+      user () {        
         return this.$store.getters.user
       }
     }
