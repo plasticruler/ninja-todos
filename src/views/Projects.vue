@@ -30,9 +30,8 @@ export default {
           return this.$store.getters.user
       },
       myProjects(){
-          console.log(this.$store.getters.user.email)
           return this.projects.filter(project=>{
-              return project.person === this.$store.getters.user.email && project.status != 'complete'
+              return project.person === this.$store.getters.user.id && project.status != 'complete'
           })
       }
   },
