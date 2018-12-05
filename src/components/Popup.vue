@@ -49,7 +49,7 @@ export default {
                     title:this.title,
                     content: this.content,
                     due:format(this.due, 'Do MMM YYYY'),
-                    person: this.$store.getters.user.email,
+                    person: this.$store.getters.user.id,
                     status: 'ongoing'
                 }
                 fs.collection('projects').add(project)
