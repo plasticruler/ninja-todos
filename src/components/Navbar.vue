@@ -4,28 +4,37 @@
       <span>Awesome! You added a new project.</span>
       <v-btn color="white" flat @click="snackbar = false">Close</v-btn>
     </v-snackbar>
-    
+
     <v-toolbar app>
         <v-toolbar-side-icon class="grey--text" @click="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title class="text-uppercase grey--text">
             <span class="font-weight-light">Todo</span>
             <span>Ninja</span>
         </v-toolbar-title>
+   
         <v-spacer></v-spacer>
-        <v-btn flat color="grey">
-            <span>Sign Out</span>
-            <v-icon right>exit_to_app</v-icon>
+        <v-btn v-if="IsUserAuthenticated" flat color="grey" @click="logout">
+            <span>Signout {{user.email}}</span>
+            <v-icon>exit_to_app</v-icon>
+            <!-- <v-icon right>exit_to_app</v-icon> -->
         </v-btn>
+        <div v-else>
+            <v-btn flat color="grey" @click="login" >
+                <span>Login</span>
+                <v-icon>how_to_reg</v-icon>
+            </v-btn>
+        </div>
+        
+
     </v-toolbar>
-    <v-navigation-drawer v-model="drawer" app class="indigo">
+    <v-navigation-drawer v-model="drawer" app class="indigo"  v-if="user">
         <v-layout column align-center>
             <v-flex class="mt-5">
                 <v-avatar size="100">
                     <img class="text-lg-center" src="a.png">
                 </v-avatar>
-                <p class="white--text subheading mt-1">The Net Ninja</p>
+                <p class="white--text subheading mt-1">{{user.email}}</p>
             </v-flex>
-
             <v-flex class="mt-4 mb-3">
                 <Popup @projectAdded="snackbar=true"/>
             </v-flex>
@@ -49,6 +58,7 @@
 
 <script>
 import Popup from './Popup'
+import {user} from '@/store/user' 
 export default {
 components:{
     Popup
@@ -63,6 +73,23 @@ components:{
       ],
       snackbar:false
     };
+  },
+  methods:{
+    logout(){
+      this.$store.dispatch('logout')
+      this.$router.push('/')
+    },
+    login(){
+        this.$router.push('/projects')
+    }
+  },
+  computed: {
+    IsUserAuthenticated(){
+      return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+    },
+    user(){
+        return this.$store.getters.user;
+    }
   }
 };
 </script>

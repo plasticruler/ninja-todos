@@ -18,6 +18,7 @@
 </template>
 <script>
 import {fs} from '@/firebase/init'
+import {store} from '@/store/'
 export default {
   data() {
     return {
@@ -25,9 +26,13 @@ export default {
     };
   },
   computed:{
+      user(){
+          return this.$store.getters.user
+      },
       myProjects(){
+          console.log(this.$store.getters.user.email)
           return this.projects.filter(project=>{
-              return project.person === 'John Conway' && project.status != 'complete'
+              return project.person === this.$store.getters.user.email && project.status != 'complete'
           })
       }
   },
