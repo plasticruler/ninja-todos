@@ -19,7 +19,7 @@
             <!-- <v-icon right>exit_to_app</v-icon> -->
         </v-btn>
         <div v-else>
-            <v-btn flat color="grey" >
+            <v-btn flat color="grey" @click="login" >
                 <span>Login</span>
                 <v-icon>how_to_reg</v-icon>
             </v-btn>
@@ -27,15 +27,14 @@
         
 
     </v-toolbar>
-    <v-navigation-drawer v-model="drawer" app class="indigo">
+    <v-navigation-drawer v-model="drawer" app class="indigo"  v-if="user">
         <v-layout column align-center>
             <v-flex class="mt-5">
                 <v-avatar size="100">
                     <img class="text-lg-center" src="a.png">
                 </v-avatar>
-                <p class="white--text subheading mt-1">The Net Ninja</p>
+                <p class="white--text subheading mt-1">{{user.email}}</p>
             </v-flex>
-
             <v-flex class="mt-4 mb-3">
                 <Popup @projectAdded="snackbar=true"/>
             </v-flex>
@@ -79,6 +78,9 @@ components:{
     logout(){
       this.$store.dispatch('logout')
       this.$router.push('/')
+    },
+    login(){
+        this.$router.push('/projects')
     }
   },
   computed: {

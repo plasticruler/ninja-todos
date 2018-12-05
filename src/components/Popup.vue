@@ -1,6 +1,6 @@
 <template>
 <v-dialog max-width="600px" v-model="dialog">
-    <v-btn flat slot="activator" class="success">Add new Project</v-btn>
+    <v-btn v-if="IsUserAuthenticated" flat slot="activator" class="success">Add new Project</v-btn>
     <v-card>
         <v-card-title>
             <h2>Add a new project</h2>
@@ -15,8 +15,8 @@
                 </v-menu>
 
                 <v-spacer></v-spacer>
-
-                <v-btn flat @click="submit" class="success mx-0 mt-3" :loading="loading">Add Project</v-btn>
+ 
+                <v-btn  flat @click="submit" class="success mx-0 mt-3" :loading="loading">Add Project</v-btn>
             </v-form>
         </v-card-text>
     </v-card>
@@ -44,11 +44,12 @@ export default {
         submit(){
             if (this.$refs.form.validate()){
                 this.loading = true;
+                console.log(this.$store.getters.user)
                 const project = {
                     title:this.title,
                     content: this.content,
                     due:format(this.due, 'Do MMM YYYY'),
-                    person: 'John Conway',
+                    person: this.$store.getters.user.email,
                     status: 'ongoing'
                 }
                 fs.collection('projects').add(project)
@@ -63,7 +64,10 @@ export default {
     computed:{
         formattedDate(){ 
             return this.due?format(this.due, 'Do MMM YYYY'):''
-        }
+        },
+        IsUserAuthenticated(){
+            return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+        }        
     }
 
 }

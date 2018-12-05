@@ -123,8 +123,8 @@
     },
     watch: {
       user (value) {
-        if (value !== null && value !== undefined) {
-          this.$router.push('/profile')
+        if (value !== null && value !== undefined && value.next) {
+          this.$router.push(value.next)
         }
       }
     },

@@ -26,14 +26,17 @@ export default {
     };
   },
   computed:{
+      user(){
+          return this.$store.getters.user
+      },
       myProjects(){
+          console.log(this.$store.getters.user.email)
           return this.projects.filter(project=>{
-              return project.person === 'John Conway' && project.status != 'complete'
+              return project.person === this.$store.getters.user.email && project.status != 'complete'
           })
       }
   },
   created(){
-      console.log(store)
       fs.collection('projects').onSnapshot(res=>{
           const changes = res.docChanges();
           changes.forEach(change=>{

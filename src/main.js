@@ -2,9 +2,8 @@ import Vue from 'vue'
 import './plugins/vuetify'
 const App = () => import('./App')
 import router from './router/router'
-import {store} from './store'
 import {fb} from '@/firebase/init'
-
+import {store} from './store'
 const AlertCmp = () => import('./components/Shared/Alert.vue')
 
 Vue.config.productionTip = false
@@ -15,6 +14,7 @@ new Vue({
   created: ()=>{   
     fb.auth().onAuthStateChanged((user)=>{
       if (user){
+        user.next = '/'
         store.dispatch('AUTO_SIGNIN',user)
       }
     })
