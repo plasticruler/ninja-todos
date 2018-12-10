@@ -49,7 +49,8 @@ export default {
                     title:this.title,
                     content: this.content,
                     due:format(this.due, 'Do MMM YYYY'),
-                    person: this.$store.getters.user.id,
+                    userid: this.$store.getters.user.uid,
+                    email: this.$store.getters.user.email,
                     status: 'ongoing'
                 }
                 fs.collection('projects').add(project)
