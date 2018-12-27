@@ -8,6 +8,7 @@ const Join = () => import('@/views/Join')
 const Profile = () => import('@/components/User/Profile')
 const Signup = () => import('@/components/User/Signup')
 const Signin = () => import('@/components/User/Signin')
+const Joplin = () => import('@/views/Joplin')
 
 
 Vue.use(Router)
@@ -20,6 +21,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Dashboard
+    },
+    {
+      path:'/joplin',
+      name:'joplin',
+      component: Joplin
     },
     {
       path:'/team',
