@@ -17,7 +17,7 @@
     </div>
 </template>
 <script>
-import {fs} from '@/firebase/init'
+import {fb} from '@/fb'
 import {store} from '@/store/'
 export default {
   data() {
@@ -36,7 +36,7 @@ export default {
       }
   },
   created(){
-      fs.collection('projects').onSnapshot(res=>{
+      fb.collection('projects').onSnapshot(res=>{
           const changes = res.docChanges();
           changes.forEach(change=>{
               if (change.type === 'added'){

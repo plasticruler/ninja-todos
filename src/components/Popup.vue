@@ -24,7 +24,7 @@
 </template>
 <script>
 import format from 'date-fns/format'
-import {fs} from '@/firebase/init'
+import {fb} from '@/fb'; //surround with curly brace because fb in that file is not marked as default
 export default {
     data(){
         return {
@@ -53,7 +53,7 @@ export default {
                     email: this.$store.getters.user.email,
                     status: 'ongoing'
                 }
-                fs.collection('projects').add(project)
+                fb.collection('projects').add(project)
                 .then(()=>{
                     this.loading = false;
                     this.dialog = false;
